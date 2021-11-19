@@ -403,4 +403,5 @@ obj/
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp
 
-*.[Ll]ocal.*
+*.Local.json
+local.env
