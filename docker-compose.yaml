@@ -1,0 +1,12 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  job:
+    build: ./job
+    env_file:
+      - ./job/local.env
+  api:
+    build: ./api
+    ports:
+      - 9002:80
+    env_file:
+      - ./api/local.env
