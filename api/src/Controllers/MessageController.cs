@@ -31,4 +31,26 @@ public class MessageController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost("create-messages")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateMessages()
+    {
+        var messagesTaks = Enumerable.Range(0, 100).Select(async _ => await GetRamdomGuid());
+        var messages = await Task.WhenAll(messagesTaks);
+        var parts = messages.Chunk(10);
+
+        foreach (var part in parts)
+        {
+            await _awsRepository.SendMessagesAsync(part);
+        }
+        return Ok($"Messages sent {messages.Count()}");
+    }
+
+    private async Task<string> GetRamdomGuid()
+    {
+        return await Task.FromResult(Guid.NewGuid().ToString());
+    }
 }
