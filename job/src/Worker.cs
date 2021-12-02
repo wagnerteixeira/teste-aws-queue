@@ -18,11 +18,16 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        Console.WriteLine($"Arquivo /data/{Environment.MachineName}.txt");
         while (!stoppingToken.IsCancellationRequested)
         {
             var messages = await _awsRepository.ReceiveMessagesAsync();
             _totalMesssges+= messages.Count;
-            _logger.LogInformation($"Receive total of {_totalMesssges} messages and not delete");
+            _logger.LogInformation($"{Environment.MachineName} Receive total of {_totalMesssges} messages and not delete");
+            foreach(var message in messages)
+            {                
+                File.AppendAllText($"/data/{Environment.MachineName}.txt", message.Body);
+            }
             // foreach(var message in messages)
             // {
             //     _logger.LogInformation("Message receive", message.Body);

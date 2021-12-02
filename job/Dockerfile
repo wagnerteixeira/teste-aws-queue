@@ -16,4 +16,5 @@ FROM mcr.microsoft.com/dotnet/runtime:6.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY run.sh .
+RUN mkdir /data
 ENTRYPOINT ["sh", "run.sh"]

@@ -38,7 +38,7 @@ public class MessageController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateMessages()
     {
-        var messagesTaks = Enumerable.Range(0, 100).Select(async _ => await GetRamdomGuid());
+        var messagesTaks = Enumerable.Range(0, 400).Select(_ => Task.Run(() => GetRamdomGuid()));
         var messages = await Task.WhenAll(messagesTaks);
         var parts = messages.Chunk(10);
 
@@ -49,8 +49,8 @@ public class MessageController : ControllerBase
         return Ok($"Messages sent {messages.Count()}");
     }
 
-    private async Task<string> GetRamdomGuid()
+    private string GetRamdomGuid()
     {
-        return await Task.FromResult(Guid.NewGuid().ToString());
+        return Guid.NewGuid().ToString();
     }
 }
