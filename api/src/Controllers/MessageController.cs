@@ -1,7 +1,7 @@
-using api.Repositories.Interfaces;
+using Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers;
+namespace Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,11 +1,15 @@
 version: "3.9"  # optional since v1.27.0
 services:
   job:
-    build: ./job
+    build:
+      context: .
+      dockerfile: Job.Dockerfile
     env_file:
       - ./job/local.env
   api:
-    build: ./api
+    build:
+      context: .
+      dockerfile: Api.Dockerfile
     ports:
       - 9002:80
     env_file:

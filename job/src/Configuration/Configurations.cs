@@ -1,8 +1,9 @@
 using Amazon.SQS;
-using job.Repositories;
-using job.Repositories.Interfaces;
+using Data.Repositories;
+using Data.Repositories.Interfaces;
+using CrossCutting.Models;
 
-namespace job.Configuration
+namespace Job.Configuration
 {
     public static class Configurations
     {

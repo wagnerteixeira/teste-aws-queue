@@ -1,11 +1,12 @@
 
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using job.Configuration;
-using job.Repositories.Interfaces;
-using job.Repositories.Models;
+using CrossCutting.Models;
+using Data.Repositories.Interfaces;
+using Data.Repositories.Models;
+using Microsoft.Extensions.Logging;
 
-namespace job.Repositories
+namespace Data.Repositories
 {
     public class AwsRepository : IAwsRepository
     {
@@ -25,7 +26,11 @@ namespace job.Repositories
         {
             try
             {
-                var sendRequest = new SendMessageRequest(_appSettings.QueueUrl, message);
+                var sendRequest = new SendMessageRequest(_appSettings.Queue.Url, message);
+                if (_appSettings.Queue.Fifo)
+                {
+                    sendRequest.MessageGroupId = Guid.NewGuid().ToString();
+                }
                 var sendResult = await _sqs.SendMessageAsync(sendRequest);
 
                 return sendResult.HttpStatusCode == System.Net.HttpStatusCode.OK;
@@ -36,13 +41,43 @@ namespace job.Repositories
                 throw;
             }
         }
+
+        private SendMessageBatchRequestEntry GetMessageBatchRequestEntry(string messageBody, string messageGroupId)
+        {
+            var message = new SendMessageBatchRequestEntry(Guid.NewGuid().ToString(), messageBody);
+            if (_appSettings.Queue.Fifo)
+            {
+                message.MessageGroupId = messageGroupId;
+            }
+            return message;
+        }
+
+        public async Task<BatchMessageResults> SendMessagesAsync(IEnumerable<string> messages)
+        {
+            try
+            {
+                var messageGroupId = Guid.NewGuid().ToString();
+                var sendMessagesBatchRequest = messages.Select(message => GetMessageBatchRequestEntry(message, messageGroupId)).ToList();
+                var result = await _sqs.SendMessageBatchAsync(_appSettings.Queue.Url, sendMessagesBatchRequest);
+
+                var success = result.Successful.Select(s => s.Id).ToArray();
+                var fails = result.Failed.Select(s => s.Id).ToArray();
+                BatchMessageResults results = new(success, fails);
+                return results;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error with send aws messages", messages);
+                throw;
+            }
+        }
         public async Task<List<Message>> ReceiveMessagesAsync()
         {
             try
             {
                 var request = new ReceiveMessageRequest
                 {
-                    QueueUrl = _appSettings.QueueUrl,
+                    QueueUrl = _appSettings.Queue.Url,
                     MaxNumberOfMessages = 10,
                     WaitTimeSeconds = 5
                 };
@@ -60,7 +95,7 @@ namespace job.Repositories
         {
             try
             {
-                var deleteResult = await _sqs.DeleteMessageAsync(_appSettings.QueueUrl, messageReceiptHandle);
+                var deleteResult = await _sqs.DeleteMessageAsync(_appSettings.Queue.Url, messageReceiptHandle);
                 return deleteResult.HttpStatusCode == System.Net.HttpStatusCode.OK;
             }
             catch (Exception ex)
@@ -70,15 +105,15 @@ namespace job.Repositories
             }
         }
 
-        public async Task<DeleteMessageResults> DeleteMessagesAsync(IEnumerable<Message> messages)
+        public async Task<BatchMessageResults> DeleteMessagesAsync(IEnumerable<Message> messages)
         {
             try
             {
                 var deleteMessagesBatchRequest = messages.Select(message => new DeleteMessageBatchRequestEntry(message.MessageId, message.ReceiptHandle)).ToList();
-                var result = await _sqs.DeleteMessageBatchAsync(_appSettings.QueueUrl, deleteMessagesBatchRequest);
+                var result = await _sqs.DeleteMessageBatchAsync(_appSettings.Queue.Url, deleteMessagesBatchRequest);
                 var success = result.Successful.Select(s => s.Id).ToArray();
                 var fails = result.Failed.Select(s => s.Id).ToArray();
-                DeleteMessageResults results = new(success, fails);
+                BatchMessageResults results = new(success, fails);
                 return results;
             }
             catch (Exception ex)
