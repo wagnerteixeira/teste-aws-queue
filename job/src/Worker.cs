@@ -1,3 +1,4 @@
+using System;
 using job.Configuration;
 using job.Repositories.Interfaces;
 
@@ -25,8 +26,10 @@ public class Worker : BackgroundService
             _totalMesssges+= messages.Count;
             _logger.LogInformation($"{Environment.MachineName} Receive total of {_totalMesssges} messages and not delete");
             foreach(var message in messages)
-            {                
-                File.AppendAllText($"/data/{Environment.MachineName}.txt", message.Body);
+            {
+                var model = new ModelFila(Environment.MachineName, new Guid(message.Body));
+                Console.WriteLine(model.id);
+                File.AppendAllText($"/data/{Environment.MachineName}.txt", $"{message.Body}" + Environment.NewLine);
             }
             // foreach(var message in messages)
             // {

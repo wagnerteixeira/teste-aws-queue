@@ -32,13 +32,15 @@ public class MessageController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("create-messages")]
+    [HttpPost]
+    [Route("create-messages/{quantidade}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateMessages()
+    public async Task<IActionResult> CreateMessages(int quantidade)
     {
-        var messagesTaks = Enumerable.Range(0, 400).Select(_ => Task.Run(() => GetRamdomGuid()));
+        Console.Write(quantidade);
+        var messagesTaks = Enumerable.Range(0, quantidade).Select(_ => Task.Run(() => GetRamdomGuid()));
         var messages = await Task.WhenAll(messagesTaks);
         var parts = messages.Chunk(10);
 

@@ -1,9 +1,20 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.0"  # optional since v1.27.0
 services:
+  db:
+    image: postgres:11
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
   job:
     build: ./job
     env_file:
       - ./job/local.env
+    volumes:
+      - /home/weto/workspace_inter/teste-aws-queue/job/data:/data
   api:
     build: ./api
     ports:
