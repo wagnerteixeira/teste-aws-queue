@@ -1,8 +1,8 @@
-using System;
-using job.Configuration;
-using job.Repositories.Interfaces;
+using Job.Configuration;
+using Data.Repositories.Interfaces;
+using CrossCutting.Models;
 
-namespace job;
+namespace Job;
 
 public class Worker : BackgroundService
 {

@@ -1,8 +1,9 @@
 using Amazon.SQS;
-using api.Repositories;
-using api.Repositories.Interfaces;
+using Data.Repositories;
+using Data.Repositories.Interfaces;
+using CrossCutting.Models;
 
-namespace api.Configuration
+namespace Api.Configuration
 {
     public static class Configurations
     {
@@ -15,6 +16,7 @@ namespace api.Configuration
         public static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)
          {
             var appSettings = configuration.Get<AppSettings>();
+            Console.WriteLine($"QueueUrl {appSettings.Queue.Url} Fifo {appSettings.Queue.Fifo}");
             services.AddSingleton(appSettings);
             // services.Configure<AppSettings>(configuration);
             services.AddAWSService<IAmazonSQS>();

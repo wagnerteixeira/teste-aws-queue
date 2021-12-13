@@ -1,5 +1,5 @@
-using job;
-using job.Configuration;
+using Job;
+using Job.Configuration;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((builder, services) =>

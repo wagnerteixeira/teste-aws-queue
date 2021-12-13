@@ -1,0 +1,17 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "AWS": {
+    "Profile": "default",
+    "Region": "us-west-2"
+  },
+  "Queue": {
+    "Url": "https://sqs.us-west-2.amazonaws.com/98779797EXAMPLE/name-queue",
+    "Fifo": false //set true for fifo queue
+  }
+}

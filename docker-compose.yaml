@@ -10,13 +10,17 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_DB: "postgres"
   job:
-    build: ./job
+    build:
+      context: .
+      dockerfile: Job.Dockerfile
     env_file:
       - ./job/local.env
     volumes:
       - /home/weto/workspace_inter/teste-aws-queue/job/data:/data
   api:
-    build: ./api
+    build:
+      context: .
+      dockerfile: Api.Dockerfile
     ports:
       - 9002:80
     env_file:
