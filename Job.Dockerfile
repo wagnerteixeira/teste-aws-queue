@@ -7,6 +7,7 @@ WORKDIR /app
 RUN mkdir -p job/src
 RUN mkdir -p data/src
 RUN mkdir -p cross_cutting/src
+RUN mkdir -p BusinessLogic
 
 COPY ["job/src/job.csproj", "./job/src"]
 COPY  ./job/src ./job/src
@@ -17,6 +18,9 @@ COPY  ./data/src ./data/src
 COPY ["cross_cutting/src/cross_cutting.csproj", "./cross_cutting/src"]
 COPY  ./cross_cutting/src ./cross_cutting/src
 
+COPY ["BusinessLogic/BusinessLogic.csproj", "./BusinessLogic"]
+COPY  ./BusinessLogic ./BusinessLogic
+
 WORKDIR "/app/job/src"
 RUN dotnet build -c Release -o /app/build
 
@@ -26,5 +30,4 @@ FROM mcr.microsoft.com/dotnet/runtime:6.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 COPY ./job/run.sh .
-RUN mkdir /data
 ENTRYPOINT ["sh", "run.sh"]

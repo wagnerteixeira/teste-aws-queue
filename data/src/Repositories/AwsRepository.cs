@@ -71,13 +71,21 @@ namespace Data.Repositories
                 throw;
             }
         }
-        public async Task<List<Message>> ReceiveMessagesAsync()
+
+        public async Task<List<Message>> ReceiveMessagesAsync(bool dlq)
+        {
+            return await (dlq 
+                ? ReceiveMessagesAsync(_appSettings.Queue.UrlDlq) 
+                : ReceiveMessagesAsync(_appSettings.Queue.Url));
+        }
+        
+        private async Task<List<Message>> ReceiveMessagesAsync(string queueUrl)
         {
             try
             {
                 var request = new ReceiveMessageRequest
                 {
-                    QueueUrl = _appSettings.Queue.Url,
+                    QueueUrl = queueUrl,
                     MaxNumberOfMessages = 10,
                     WaitTimeSeconds = 5
                 };
@@ -87,30 +95,44 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error with receive messages");
+                _logger.LogError(ex, $"Error with receive messages from {queueUrl}");
                 throw;
             }
         }
-        public async Task<bool> DeleteMessageAsync(string messageReceiptHandle)
+        public async Task<bool> DeleteMessageAsync(string messageReceiptHandle, bool dlq)
+        {
+            return await (dlq 
+                ? DeleteMessageAsync(messageReceiptHandle, _appSettings.Queue.UrlDlq) 
+                : DeleteMessageAsync(messageReceiptHandle, _appSettings.Queue.Url));
+        }
+        
+        private async Task<bool> DeleteMessageAsync(string messageReceiptHandle, string queueUrl)
         {
             try
             {
-                var deleteResult = await _sqs.DeleteMessageAsync(_appSettings.Queue.Url, messageReceiptHandle);
+                var deleteResult = await _sqs.DeleteMessageAsync(queueUrl, messageReceiptHandle);
                 return deleteResult.HttpStatusCode == System.Net.HttpStatusCode.OK;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error with delete message", messageReceiptHandle);
+                _logger.LogError(ex, $"Error with delete message on {queueUrl}", messageReceiptHandle);
                 throw;
             }
         }
+        
+        public async Task<BatchMessageResults> DeleteMessagesAsync(IEnumerable<Message> messages, bool dlq)
+        {
+            return await (dlq
+                ? DeleteMessagesAsync(messages, _appSettings.Queue.UrlDlq)
+                : DeleteMessagesAsync(messages, _appSettings.Queue.Url));
+        }
 
-        public async Task<BatchMessageResults> DeleteMessagesAsync(IEnumerable<Message> messages)
+        private async Task<BatchMessageResults> DeleteMessagesAsync(IEnumerable<Message> messages, string queueUrl)
         {
             try
             {
                 var deleteMessagesBatchRequest = messages.Select(message => new DeleteMessageBatchRequestEntry(message.MessageId, message.ReceiptHandle)).ToList();
-                var result = await _sqs.DeleteMessageBatchAsync(_appSettings.Queue.Url, deleteMessagesBatchRequest);
+                var result = await _sqs.DeleteMessageBatchAsync(queueUrl, deleteMessagesBatchRequest);
                 var success = result.Successful.Select(s => s.Id).ToArray();
                 var fails = result.Failed.Select(s => s.Id).ToArray();
                 BatchMessageResults results = new(success, fails);
@@ -118,7 +140,7 @@ namespace Data.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error with delete messages", messages);
+                _logger.LogError(ex, $"Error with delete messages on {queueUrl}", messages);
                 throw;
             }
         }

@@ -5,19 +5,37 @@
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
             // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-            "name": ".NET Core Launch (console)",
+            "name": ".NET Core Launch Job (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build job",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/bin/Debug/net6.0/job.dll",
+            "program": "${workspaceFolder}/job/src/bin/Debug/net6.0/job.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src",
+            "cwd": "${workspaceFolder}/job/src",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false,
             "env": {
                 "DOTNET_ENVIRONMENT": "Local"
+            }
+        },
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build api",
+            "program": "${workspaceFolder}/api/src/bin/Debug/net6.0/api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/api/src",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Local"
             }
         },
         {

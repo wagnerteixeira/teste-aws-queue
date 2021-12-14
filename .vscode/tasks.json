@@ -1,0 +1,113 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Parar serviços",
+      "command": "docker-compose",
+      "type": "shell",
+      "args": ["down", "-v", "--remove-orphans"],
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "close": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Subir serviços",
+      "command": "docker-compose",
+      "type": "shell",
+      "args": ["up", "-d", "--build"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "clear": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Restore dbUp",
+      "command": "dotnet",
+      "type": "shell",
+      "args": ["tool", "restore", "--configfile", ".config/NuGet.config"],
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "clear": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/.data"
+      }
+    },
+    {
+      "label": "Criar base e subir serviços",
+      "command": "dotnet",
+      "type": "shell",
+      "args": ["dbup", "upgrade"],
+      "group": "build",
+      "presentation": {
+        "reveal": "silent",
+        "clear": false,
+        "close": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/.data"
+      },
+      "dependsOrder": "sequence",
+      "dependsOn": ["Restore dbUp", "Subir serviços"]
+    },
+    {
+      "label": "build api",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/api/src/api.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build job",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/job/src/job.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Scale job",
+      "command": "docker-compose",
+      "type": "shell",
+      "args": ["up", "-d", "--scale", "job=${input:jobScale}"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "clear": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "jobScale",
+      "type": "promptString",
+      "default": "3",
+      "description": "Quantidade de container de job a ser escalado",
+      "password": false
+    }
+  ]
+}

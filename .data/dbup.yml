@@ -1,0 +1,8 @@
+﻿dbUp:
+  version: 1
+  provider: PostgreSQL
+  connectionString: Host=localhost;Username=postgres;Password=postgres;Database=postgres;Port=9102
+  connectionTimeoutSec: 30
+  transaction: PerScript
+  scripts:
+    -   folder: ./scripts

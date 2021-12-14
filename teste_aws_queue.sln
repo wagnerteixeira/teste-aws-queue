@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "job", "job", "{D5AF392C-B90
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "job", "job\src\job.csproj", "{D74C2E22-B7C3-421D-AC8A-C19B89930993}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{08708217-8673-412F-9167-AA92A92A8456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{D74C2E22-B7C3-421D-AC8A-C19B89930993}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D74C2E22-B7C3-421D-AC8A-C19B89930993}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D74C2E22-B7C3-421D-AC8A-C19B89930993}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08708217-8673-412F-9167-AA92A92A8456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08708217-8673-412F-9167-AA92A92A8456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08708217-8673-412F-9167-AA92A92A8456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08708217-8673-412F-9167-AA92A92A8456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{53300BDF-11E1-4743-822B-C9BA9BCA214B} = {953F938A-8A95-4225-A5F8-4484C7BB5288}
