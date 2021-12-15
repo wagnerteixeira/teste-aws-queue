@@ -1,0 +1,269 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/wagner/Projetos/teste-aws-queue/src/Job/Job.csproj": {}
+  },
+  "projects": {
+    "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/BusinessLogic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/BusinessLogic.csproj",
+        "projectName": "BusinessLogic",
+        "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/BusinessLogic.csproj",
+        "packagesPath": "/home/wagner/.nuget/packages/",
+        "outputPath": "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/wagner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj": {
+                "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/wagner/.dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj",
+        "projectName": "Data",
+        "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj",
+        "packagesPath": "/home/wagner/.nuget/packages/",
+        "outputPath": "/home/wagner/Projetos/teste-aws-queue/src/Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/wagner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj": {
+                "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "AWSSDK.Extensions.NETCore.Setup": {
+              "target": "Package",
+              "version": "[3.7.1, )"
+            },
+            "AWSSDK.SQS": {
+              "target": "Package",
+              "version": "[3.7.1.40, )"
+            },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/wagner/.dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/wagner/Projetos/teste-aws-queue/src/Job/Job.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/wagner/Projetos/teste-aws-queue/src/Job/Job.csproj",
+        "projectName": "Job",
+        "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Job/Job.csproj",
+        "packagesPath": "/home/wagner/.nuget/packages/",
+        "outputPath": "/home/wagner/Projetos/teste-aws-queue/src/Job/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/wagner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/BusinessLogic.csproj": {
+                "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/BusinessLogic/BusinessLogic.csproj"
+              },
+              "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj": {
+                "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Data/Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "AWSSDK.Extensions.NETCore.Setup": {
+              "target": "Package",
+              "version": "[3.7.1, )"
+            },
+            "AWSSDK.SQS": {
+              "target": "Package",
+              "version": "[3.7.1.40, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/wagner/.dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj",
+        "packagesPath": "/home/wagner/.nuget/packages/",
+        "outputPath": "/home/wagner/Projetos/teste-aws-queue/src/Shared/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/wagner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "AWSSDK.SQS": {
+              "target": "Package",
+              "version": "[3.7.1.40, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/wagner/.dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

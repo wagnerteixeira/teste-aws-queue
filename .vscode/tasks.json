@@ -63,24 +63,24 @@
       "dependsOn": ["Restore dbUp", "Subir serviços"]
     },
     {
-      "label": "build api",
+      "label": "build Api",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/api/src/api.csproj",
+        "${workspaceFolder}/src/Api/Api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build job",
+      "label": "build Job",
       "command": "dotnet",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/job/src/job.csproj",
+        "${workspaceFolder}/src/Job/Job.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

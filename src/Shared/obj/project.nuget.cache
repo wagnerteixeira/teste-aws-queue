@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Cl7wPqT6B7AtlnzOPICZY72cqT8t3hEn5pl69BdwSRzX8OBoXEUkKiImKKFyBgb2WE5pL+0sLi4MDO8Ljps8GQ==",
+  "success": true,
+  "projectFilePath": "/home/wagner/Projetos/teste-aws-queue/src/Shared/Shared.csproj",
+  "expectedPackageFiles": [
+    "/home/wagner/.nuget/packages/awssdk.core/3.7.4.2/awssdk.core.3.7.4.2.nupkg.sha512",
+    "/home/wagner/.nuget/packages/awssdk.sqs/3.7.1.40/awssdk.sqs.3.7.1.40.nupkg.sha512"
+  ],
+  "logs": []
+}
