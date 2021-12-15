@@ -8,7 +8,6 @@
       "command": "docker-compose",
       "type": "shell",
       "args": ["down", "-v", "--remove-orphans"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "close": true
@@ -22,7 +21,6 @@
       "command": "docker-compose",
       "type": "shell",
       "args": ["up", "-d", "--build"],
-      "group": "build",
       "presentation": {
         "reveal": "always",
         "clear": false
@@ -36,7 +34,6 @@
       "command": "dotnet",
       "type": "shell",
       "args": ["tool", "restore", "--configfile", ".config/NuGet.config"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "clear": false
@@ -50,7 +47,6 @@
       "command": "dotnet",
       "type": "shell",
       "args": ["dbup", "upgrade"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "clear": false,
@@ -65,6 +61,7 @@
     {
       "label": "build Api",
       "command": "dotnet",
+      "group": "build",
       "type": "process",
       "args": [
         "build",
@@ -77,6 +74,7 @@
     {
       "label": "build Job",
       "command": "dotnet",
+      "group": "build",
       "type": "process",
       "args": [
         "build",
@@ -87,11 +85,21 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "build Solution",
+      "command": "dotnet",
+      "group": "build",
+      "type": "process",
+      "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "Scale job",
       "command": "docker-compose",
       "type": "shell",
       "args": ["up", "-d", "--scale", "job=${input:jobScale}"],
-      "group": "build",
       "presentation": {
         "reveal": "always",
         "clear": false

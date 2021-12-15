@@ -24,3 +24,5 @@ Este comando irá subir um container com a base de dados postgres, um container 
 Para parar os serviços
 
 Ctrl+Shift+P => Tasks: Run Task => Parar Serviços
+
+post sobre backup sqs https://stackoverflow.com/questions/57978083/aws-sqs-backup-solution-design
