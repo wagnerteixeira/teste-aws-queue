@@ -1,4 +1,4 @@
-para execução local com Vs Code
+## para execução local com Vs Code
 
 API
 renomear o arquivo src/Api/appsettings.Local.json.example para src/Api/appsettings.Local.json e ajustar o nome da fila e se é uma fila FIFO
@@ -9,13 +9,17 @@ selecionar a opção "Executar Api" no Run and Debug do Vs Code e apertar F5
 
 JOB 
 
-renomear o arquivo src/Job/appsettings.Local.json.example para src/Job/appsettings.Local.json e ajustar o nome da fila, nome da fila dlq, dados de conexao postgres e se é uma fila FIFO
+renomear o arquivo src/Job/appsettings.Local.json.example para src/Job/appsettings.Local.json e ajustar o nome da fila, nome da fila dlq, dados de conexao postgres e se é fila FIFO
 
 renomear o arquivo src/Job/Properties/launchSettings.json.example para src/Job/Properties/launchSettings.json e ajustar AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY com as credenciais conta aws
 
 selecionar a opção "Executar Job" no Run and Debug do Vs Code e apertar F5
 
-para execução dos serviços com docker
+## para execução dos serviços com docker
+
+Renomear o arquivo docker/Api/local.env.example para docker/Api/local.env e ajustr nome da file, se é fila FIFO e AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY com as credenciais conta aws
+
+Renomear o arquivo docker/Job/local.env.example para docker/Job/local.env e ajustar nome da fila e nome da fila dlq,  se é fila FIFO, dados de conexao postgres e ajustar AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY com as credenciais conta aws
 
 Ctrl+Shift+P => Tasks: Run Task => Criar base e Subir os Serviços
 

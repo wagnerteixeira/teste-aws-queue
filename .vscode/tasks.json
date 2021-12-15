@@ -39,7 +39,7 @@
         "clear": false
       },
       "options": {
-        "cwd": "${workspaceFolder}/.data"
+        "cwd": "${workspaceFolder}/data"
       }
     },
     {
@@ -53,7 +53,7 @@
         "close": true
       },
       "options": {
-        "cwd": "${workspaceFolder}/.data"
+        "cwd": "${workspaceFolder}/data"
       },
       "dependsOrder": "sequence",
       "dependsOn": ["Restore dbUp", "Subir serviços"]
