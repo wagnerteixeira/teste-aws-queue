@@ -17,10 +17,10 @@ services:
       retries: 5
   job:
     build:
-      context: .
-      dockerfile: Job.Dockerfile
+      context: ..
+      dockerfile: docker/Job/Job.Dockerfile
     env_file:
-      - ./job/local.env
+      - Job/local.env
     links:
       - db
     depends_on:
@@ -28,9 +28,9 @@ services:
         condition: service_healthy
   api:
     build:
-      context: .
-      dockerfile: Api.Dockerfile
+      context: ..
+      dockerfile: docker/Api/Api.Dockerfile
     ports:
       - 9002:80
     env_file:
-      - ./api/local.env
+      - Api/local.env

@@ -14,7 +14,7 @@
         "close": true
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     },
     {
@@ -28,7 +28,7 @@
         "clear": false
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     },
     {
@@ -97,7 +97,7 @@
         "clear": false
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     }
   ],
