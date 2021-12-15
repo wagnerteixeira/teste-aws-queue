@@ -1,0 +1,23 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AWS": {
+    "Region": "us-west-2"
+  },
+  "Queue": {
+    "Url": "https://sqs.us-west-2.amazonaws.com/98779797EXAMPLE/name-queue",    
+    "UrlDlq": "https://sqs.us-west-2.amazonaws.com/98779797EXAMPLE/name-queue-dlq",
+    "Fifo": false //set true for fifo queue
+  },
+  "PostgresSettings": {
+    "Host": "localhost",
+    "Username" : "postgres",
+    "Password" : "postgres",
+    "Database" : "postgres",
+    "Port": 9102
+  }
+}

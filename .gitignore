@@ -405,3 +405,5 @@ obj/
 
 *.Local.json
 local.env
+
+launchSettings.json

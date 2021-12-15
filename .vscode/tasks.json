@@ -8,13 +8,12 @@
       "command": "docker-compose",
       "type": "shell",
       "args": ["down", "-v", "--remove-orphans"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "close": true
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     },
     {
@@ -22,13 +21,12 @@
       "command": "docker-compose",
       "type": "shell",
       "args": ["up", "-d", "--build"],
-      "group": "build",
       "presentation": {
         "reveal": "always",
         "clear": false
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     },
     {
@@ -36,7 +34,6 @@
       "command": "dotnet",
       "type": "shell",
       "args": ["tool", "restore", "--configfile", ".config/NuGet.config"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "clear": false
@@ -50,7 +47,6 @@
       "command": "dotnet",
       "type": "shell",
       "args": ["dbup", "upgrade"],
-      "group": "build",
       "presentation": {
         "reveal": "silent",
         "clear": false,
@@ -63,27 +59,40 @@
       "dependsOn": ["Restore dbUp", "Subir serviços"]
     },
     {
-      "label": "build api",
+      "label": "build Api",
       "command": "dotnet",
+      "group": "build",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/api/src/api.csproj",
+        "${workspaceFolder}/src/Api/Api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build job",
+      "label": "build Job",
       "command": "dotnet",
+      "group": "build",
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/job/src/job.csproj",
+        "${workspaceFolder}/src/Job/Job.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build Solution",
+      "command": "dotnet",
+      "group": "build",
+      "type": "process",
+      "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": "$msCompile"
     },
     {
@@ -91,13 +100,12 @@
       "command": "docker-compose",
       "type": "shell",
       "args": ["up", "-d", "--scale", "job=${input:jobScale}"],
-      "group": "build",
       "presentation": {
         "reveal": "always",
         "clear": false
       },
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docker"
       }
     }
   ],
