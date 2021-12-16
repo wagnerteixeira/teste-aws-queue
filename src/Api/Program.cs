@@ -2,6 +2,8 @@ using Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddLogging();
+
 // Add services to the container.
 
 builder.Services.AddControllers();

@@ -6,6 +6,7 @@ using Data.Repositories;
 using Data.Repositories.Interfaces;
 using Shared.Models;
 using Npgsql;
+using Serilog;
 
 namespace Job.Configuration
 {
@@ -27,6 +28,15 @@ namespace Job.Configuration
         public static IServiceCollection AddBusinessLogic(this IServiceCollection services)
         {
             return services.AddSingleton<IProcessMessages, ProcessMessages>();
+        }
+
+        public static void AddLogging(this ILoggingBuilder builder, IConfiguration configuration)
+        {
+            builder.ClearProviders();
+            var loggerConfig = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration);
+            var logger = loggerConfig.CreateLogger();
+            builder.AddSerilog(logger);
         }
 
         public static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)

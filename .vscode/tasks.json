@@ -43,7 +43,7 @@
       }
     },
     {
-      "label": "Criar base e subir serviços",
+      "label": "Restaurar dbUp e Criar base",
       "command": "dotnet",
       "type": "shell",
       "args": ["dbup", "upgrade"],
@@ -56,7 +56,7 @@
         "cwd": "${workspaceFolder}/data"
       },
       "dependsOrder": "sequence",
-      "dependsOn": ["Restore dbUp", "Subir serviços"]
+      "dependsOn": ["Restore dbUp"]
     },
     {
       "label": "build Api",

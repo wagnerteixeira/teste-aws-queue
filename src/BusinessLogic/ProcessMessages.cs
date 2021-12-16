@@ -25,6 +25,12 @@ public class ProcessMessages : IProcessMessages
     private async Task ProcessNormalMessages()
     {
         var messages = await _awsRepository.ReceiveMessagesAsync(false);
+        if (!messages.Any())
+        {
+            _logger.LogInformation($"{Environment.MachineName} Receive empty messages");
+            return;
+        }
+
         _logger.LogInformation($"{Environment.MachineName} Receive {messages.Count} messages");
         foreach (var message in messages)
         {
@@ -40,11 +46,17 @@ public class ProcessMessages : IProcessMessages
             await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, false);
 
         }
+        _logger.LogInformation($"{Environment.MachineName} Process and delete {messages.Count} messages");
     }
 
     private async Task ProcessDlqMessages()
     {
         var messages = await _awsRepository.ReceiveMessagesAsync(true);
+        if (!messages.Any())
+        {
+            _logger.LogInformation($"{Environment.MachineName} Receive empty messages from DLQ");
+            return;
+        }
         _logger.LogInformation($"{Environment.MachineName} Receive {messages.Count} messages from DLQ");
         foreach (var message in messages)
         {
@@ -58,5 +70,6 @@ public class ProcessMessages : IProcessMessages
             }
             await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, true);
         }
+        _logger.LogInformation($"{Environment.MachineName} Process and delete {messages.Count} messages from DLQ");
     }
 }

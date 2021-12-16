@@ -1,6 +1,7 @@
 using Amazon.SQS;
 using Data.Repositories;
 using Data.Repositories.Interfaces;
+using Serilog;
 using Shared.Models;
 
 namespace Api.Configuration
@@ -11,6 +12,17 @@ namespace Api.Configuration
         {
             services.AddSingleton<IAwsRepository, AwsRepository>();
             return services;
+        }
+
+        public static void AddLogging(this WebApplicationBuilder builder)
+        {
+            builder.Logging.ClearProviders();
+
+            var loggerConfig = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration);
+            var logger = loggerConfig.CreateLogger();
+
+            builder.Logging.AddSerilog(logger);
         }
 
         public static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)
