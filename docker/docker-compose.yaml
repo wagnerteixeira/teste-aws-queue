@@ -32,5 +32,6 @@ services:
       dockerfile: docker/Api/Api.Dockerfile
     ports:
       - 9002:80
+      - 9003:443
     env_file:
       - Api/local.env
