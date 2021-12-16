@@ -7,7 +7,7 @@ public class Worker : BackgroundService
     private readonly ILogger<Worker> _logger;
     private readonly IProcessMessages _processMessages;
 
-    public Worker(ILogger<Worker> logger, 
+    public Worker(ILogger<Worker> logger,
         IProcessMessages processMessages)
     {
         _logger = logger;
@@ -20,9 +20,9 @@ public class Worker : BackgroundService
         {
             try
             {
-                _logger.LogInformation($"{Environment.MachineName} Init Process Messages");
+                _logger.LogInformation($"Init Process Messages");
                 await _processMessages.Process();
-                _logger.LogInformation($"{Environment.MachineName} Final Process Messages");
+                _logger.LogInformation($"Final Process Messages");
                 await Task.Delay(1000, stoppingToken);
             }
             catch (Exception ex)

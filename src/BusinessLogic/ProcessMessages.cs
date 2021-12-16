@@ -27,11 +27,11 @@ public class ProcessMessages : IProcessMessages
         var messages = await _awsRepository.ReceiveMessagesAsync(false);
         if (!messages.Any())
         {
-            _logger.LogInformation($"{Environment.MachineName} Receive empty messages");
+            _logger.LogInformation($"Receive empty messages");
             return;
         }
 
-        _logger.LogInformation($"{Environment.MachineName} Receive {messages.Count} messages");
+        _logger.LogInformation($"Receive {messages.Count} messages");
         foreach (var message in messages)
         {
             if (Guid.TryParse(message.Body, out var guid))
@@ -46,7 +46,7 @@ public class ProcessMessages : IProcessMessages
             await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, false);
 
         }
-        _logger.LogInformation($"{Environment.MachineName} Process and delete {messages.Count} messages");
+        _logger.LogInformation($"Process and delete {messages.Count} messages");
     }
 
     private async Task ProcessDlqMessages()
@@ -54,10 +54,10 @@ public class ProcessMessages : IProcessMessages
         var messages = await _awsRepository.ReceiveMessagesAsync(true);
         if (!messages.Any())
         {
-            _logger.LogInformation($"{Environment.MachineName} Receive empty messages from DLQ");
+            _logger.LogInformation($"Receive empty messages from DLQ");
             return;
         }
-        _logger.LogInformation($"{Environment.MachineName} Receive {messages.Count} messages from DLQ");
+        _logger.LogInformation($"Receive {messages.Count} messages from DLQ");
         foreach (var message in messages)
         {
             if (Guid.TryParse(message.Body, out var guid))
@@ -70,6 +70,6 @@ public class ProcessMessages : IProcessMessages
             }
             await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, true);
         }
-        _logger.LogInformation($"{Environment.MachineName} Process and delete {messages.Count} messages from DLQ");
+        _logger.LogInformation($"Process and delete {messages.Count} messages from DLQ");
     }
 }
