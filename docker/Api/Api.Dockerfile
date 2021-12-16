@@ -16,6 +16,8 @@ RUN dotnet build -c Release -o /app/build
 RUN dotnet publish -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+RUN mkdir /https
+COPY docker/aspnetapp.pfx /https
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]

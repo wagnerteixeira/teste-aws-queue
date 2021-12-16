@@ -34,6 +34,7 @@ services:
       dockerfile: docker/Api/Api.Dockerfile
     ports:
       - 9002:80
+      - 9003:443
     depends_on:
       - db
     env_file:
