@@ -24,6 +24,7 @@ public class ProcessMessages : IProcessMessages
 
     private async Task ProcessNormalMessages()
     {
+        int deletedMessages = 0;
         var messages = await _awsRepository.ReceiveMessagesAsync(false);
         if (!messages.Any())
         {
@@ -43,14 +44,19 @@ public class ProcessMessages : IProcessMessages
                 _logger.LogError($"Mensagem {message} inválida");
             }
 
-            await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, false);
+            if (await _postgreSqlRepository.DeleteNormalMessage())
+            {
+                await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, false);
+                deletedMessages++;
+            }
 
         }
-        _logger.LogInformation($"Process and delete {messages.Count} messages");
+        _logger.LogInformation($"Receive {messages.Count} messages and delete {deletedMessages}");
     }
 
     private async Task ProcessDlqMessages()
     {
+        int deletedMessages = 0;
         var messages = await _awsRepository.ReceiveMessagesAsync(true);
         if (!messages.Any())
         {
@@ -68,8 +74,13 @@ public class ProcessMessages : IProcessMessages
             {
                 _logger.LogError($"Mensagem {message} inválida");
             }
-            await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, true);
+
+            if (await _postgreSqlRepository.DeleteDlqMessage())
+            {
+                await _awsRepository.DeleteMessageAsync(message.ReceiptHandle, true);
+                deletedMessages++;
+            }
         }
-        _logger.LogInformation($"Process and delete {messages.Count} messages from DLQ");
+        _logger.LogInformation($"Receive {messages.Count} messages from DLQ and delete {deletedMessages}");
     }
 }

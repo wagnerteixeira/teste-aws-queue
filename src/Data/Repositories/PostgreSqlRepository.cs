@@ -22,4 +22,16 @@ public class PostgreSqlRepository : IPostgreSqlRepository
         var sqlStatement = "INSERT INTO public.message_dlq (id, minute) VALUES(@Id, @Minute);";
         return (await _connection.ExecuteAsync(sqlStatement, new { Id = guid, Minute = minute })) > 0;
     }
+
+    public async Task<bool> DeleteNormalMessage()
+    {
+        var sqlStatement = "select delete_normal_message from \"control\" limit 1";
+        return await _connection.QueryFirstAsync<bool>(sqlStatement);
+    }
+
+    public async Task<bool> DeleteDlqMessage()
+    {
+        var sqlStatement = "select delete_dlq_message from \"control\" limit 1";
+        return await _connection.QueryFirstAsync<bool>(sqlStatement);
+    }
 }
