@@ -37,7 +37,14 @@ public class ProcessMessages : IProcessMessages
         {
             if (Guid.TryParse(message.Body, out var guid))
             {
-                await _postgreSqlRepository.InsertMessage(guid);
+                try
+                {
+                    await _postgreSqlRepository.InsertMessage(guid, Environment.MachineName);
+                }
+                catch (Exception ex)
+                {
+                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName);
+                }
             }
             else
             {
@@ -68,7 +75,14 @@ public class ProcessMessages : IProcessMessages
         {
             if (Guid.TryParse(message.Body, out var guid))
             {
-                await _postgreSqlRepository.InsertMessageDlq(guid, DateTime.Now.Minute);
+                try
+                {
+                    await _postgreSqlRepository.InsertMessageDlq(guid, DateTime.Now.Minute, Environment.MachineName);
+                }
+                catch (Exception ex)
+                {
+                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName);
+                }
             }
             else
             {
