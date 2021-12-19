@@ -1,6 +1,7 @@
 using System.Data;
 using Amazon.SQS;
 using BusinessLogic;
+using Amazon.DynamoDBv2;
 using BusinessLogic.Interfaces;
 using Data.Repositories;
 using Data.Repositories.Interfaces;
@@ -45,6 +46,7 @@ namespace Job.Configuration
             services.AddSingleton(appSettings);
             services.AddSingleton<AppSettings>(appSettings);
             services.AddAWSService<IAmazonSQS>();
+            services.AddAWSService<AmazonDynamoDBClient>();
 
             var options = configuration.GetAWSOptions();
             services.AddDefaultAWSOptions(options);

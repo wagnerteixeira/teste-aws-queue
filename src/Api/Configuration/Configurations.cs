@@ -11,6 +11,7 @@ namespace Api.Configuration
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddSingleton<IAwsRepository, AwsRepository>();
+            services.AddSingleton<IAwsDynamoRepository, AwsDynamoRepository>();
             return services;
         }
 
