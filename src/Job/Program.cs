@@ -1,6 +1,5 @@
 using Job;
 using Job.Configuration;
-using Serilog;
 
 IConfiguration? configuration = null;
 

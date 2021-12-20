@@ -3,7 +3,6 @@ using Data.Repositories.Models;
 using Microsoft.Extensions.Logging;
 using Amazon.DynamoDBv2.DataModel;
 using Shared.Models;
-using System.Linq;
 
 namespace Data.Repositories
 {
