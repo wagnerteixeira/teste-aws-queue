@@ -11,16 +11,16 @@ public class PostgreSqlRepository : IPostgreSqlRepository
         _connection = connection;
     }
 
-    public async Task<bool> InsertMessage(Guid guid, string machineName)
+    public async Task<bool> InsertMessage(Guid guid, string machineName, DateTime processTime)
     {
-        var sqlStatement = "INSERT INTO public.message (id, machine_name) VALUES(@Id, @MachineName);";
-        return (await _connection.ExecuteAsync(sqlStatement, new { Id = guid, MachineName = machineName })) > 0;
+        var sqlStatement = "INSERT INTO public.message (id, machine_name, process_time) VALUES(@Id, @MachineName, @ProcessTime);";
+        return (await _connection.ExecuteAsync(sqlStatement, new { Id = guid, MachineName = machineName, ProcessTime = processTime })) > 0;
     }
 
-    public async Task<bool> InsertMessageDlq(Guid guid, int minute, string machineName)
+    public async Task<bool> InsertMessageDlq(Guid guid, int minute, string machineName, DateTime processTime)
     {
-        var sqlStatement = "INSERT INTO public.message_dlq (id, minute, machine_name) VALUES(@Id, @Minute, @MachineName);";
-        return (await _connection.ExecuteAsync(sqlStatement, new { Id = guid, Minute = minute, MachineName = machineName })) > 0;
+        var sqlStatement = "INSERT INTO public.message_dlq (id, minute, machine_name, process_time) VALUES(@Id, @Minute, @MachineName, @ProcessTime);";
+        return (await _connection.ExecuteAsync(sqlStatement, new { Id = guid, Minute = minute, MachineName = machineName, ProcessTime = processTime })) > 0;
     }
 
     public async Task<bool> DeleteNormalMessage()
@@ -35,9 +35,9 @@ public class PostgreSqlRepository : IPostgreSqlRepository
         return await _connection.QueryFirstAsync<bool>(sqlStatement);
     }
 
-    public async Task InsertErrorMessage(Guid guid, string errorMessage, string machineName)
+    public async Task InsertErrorMessage(Guid guid, string errorMessage, string machineName, DateTime processTime)
     {
-        var sqlStatement = "INSERT INTO public.errors (id, message, machine_name) VALUES(@Id, @Message, @MachineName);";
-        await _connection.ExecuteAsync(sqlStatement, new { Id = guid, Message = errorMessage, MachineName = machineName });
+        var sqlStatement = "INSERT INTO public.errors (id, message, machine_name, process_time) VALUES(@Id, @Message, @MachineName, @ProcessTime);";
+        await _connection.ExecuteAsync(sqlStatement, new { Id = guid, Message = errorMessage, MachineName = machineName, ProcessTime = processTime });
     }
 }

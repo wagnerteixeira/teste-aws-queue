@@ -12,6 +12,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
+      TZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
   job:
     build:
       context: ..
@@ -22,6 +24,8 @@ services:
       - db
     depends_on:
       - db
+    environment:
+      TZ: America/Sao_Paulo
   api:
     build:
       context: ..
@@ -33,3 +37,5 @@ services:
       - db
     env_file:
       - Api/local.env
+    environment:
+      TZ: America/Sao_Paulo

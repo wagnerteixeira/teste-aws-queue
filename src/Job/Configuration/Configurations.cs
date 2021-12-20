@@ -4,6 +4,7 @@ using BusinessLogic;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using BusinessLogic.Interfaces;
+using BusinessLogic.Models;
 using Data.Repositories;
 using Data.Repositories.Interfaces;
 using Shared.Models;
@@ -22,7 +23,7 @@ namespace Job.Configuration
             var postgresSettings = appSettings.PostgresSettings;
             var connectionString = $"Host={postgresSettings.Host};Username={postgresSettings.Username};Password={postgresSettings.Password};Database={postgresSettings.Database};Port={postgresSettings.Port}";
             services.AddTransient<IDbConnection>((sp) => new NpgsqlConnection(connectionString));
-            services.AddSingleton<IAwsDynamoRepository<string>, AwsDynamoRepository<string>>();
+            services.AddSingleton<IAwsDynamoRepository<MessageModel>, AwsDynamoRepository<MessageModel>>();
             return services;
         }
 

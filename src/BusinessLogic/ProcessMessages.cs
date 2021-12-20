@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Interfaces;
+using BusinessLogic.Models;
 using Data.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -8,11 +9,11 @@ public class ProcessMessages : IProcessMessages
     private readonly ILogger<ProcessMessages> _logger;
     private readonly IAwsRepository _awsRepository;
     private readonly IPostgreSqlRepository _postgreSqlRepository;
-    private readonly IAwsDynamoRepository<string> _awsDynamoRepository;
+    private readonly IAwsDynamoRepository<MessageModel> _awsDynamoRepository;
     public ProcessMessages(ILogger<ProcessMessages> logger,
         IAwsRepository awsRepository,
         IPostgreSqlRepository postgreSqlRepository,
-        IAwsDynamoRepository<string> awsDynamoRepository)
+        IAwsDynamoRepository<MessageModel> awsDynamoRepository)
     {
         _logger = logger;
         _awsRepository = awsRepository;
@@ -39,7 +40,14 @@ public class ProcessMessages : IProcessMessages
 
         try
         {
-            var batchCreateMessages = messages.Select(message => (message.MessageId, message.Body));
+            var batchCreateMessages = messages.Select(message => 
+                (message.MessageId, new MessageModel()
+                    {
+                        Guid = message.Body,
+                        MachineName = Environment.MachineName,
+                        ProcessTime = DateTime.Now
+                    }
+                ));
             await _awsDynamoRepository.BatchSaveMessageAsync(batchCreateMessages);
         }
         catch (Exception ex)
@@ -53,12 +61,12 @@ public class ProcessMessages : IProcessMessages
             {
                 try
                 {
-                    await _postgreSqlRepository.InsertMessage(guid, Environment.MachineName);
+                    await _postgreSqlRepository.InsertMessage(guid, Environment.MachineName, DateTime.Now);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Insert message error");
-                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName);
+                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName, DateTime.Now);
                 }
             }
             else
@@ -101,12 +109,12 @@ public class ProcessMessages : IProcessMessages
             {
                 try
                 {
-                    await _postgreSqlRepository.InsertMessageDlq(guid, DateTime.Now.Minute, Environment.MachineName);
+                    await _postgreSqlRepository.InsertMessageDlq(guid, DateTime.Now.Minute, Environment.MachineName, DateTime.Now);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Insert DLQ message error");
-                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName);
+                    await _postgreSqlRepository.InsertErrorMessage(guid, ex.Message, Environment.MachineName, DateTime.Now);
                 }
             }
             else
