@@ -21,13 +21,13 @@ public class Worker : BackgroundService
             try
             {
                 _logger.LogInformation($"Init Process Messages");
+                await Task.Delay(Random.Shared.Next(1000, 2000), stoppingToken);
                 await _processMessages.Process();
                 _logger.LogInformation($"Final Process Messages");
-                await Task.Delay(1000, stoppingToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao processar");
+                _logger.LogError(ex, "Process messages error");
             }
         }
     }

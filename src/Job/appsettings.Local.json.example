@@ -19,5 +19,6 @@
     "Password" : "postgres",
     "Database" : "postgres",
     "Port": 9102
-  }
+  },
+  "DynamoDbTable" : "tablename"
 }

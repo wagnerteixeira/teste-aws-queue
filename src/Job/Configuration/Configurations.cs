@@ -2,6 +2,7 @@ using System.Data;
 using Amazon.SQS;
 using BusinessLogic;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using BusinessLogic.Interfaces;
 using Data.Repositories;
 using Data.Repositories.Interfaces;
@@ -20,9 +21,8 @@ namespace Job.Configuration
             var appSettings = configuration.Get<JobAppSettings>();
             var postgresSettings = appSettings.PostgresSettings;
             var connectionString = $"Host={postgresSettings.Host};Username={postgresSettings.Username};Password={postgresSettings.Password};Database={postgresSettings.Database};Port={postgresSettings.Port}";
-            Console.WriteLine($"connectionString-> {connectionString}");
             services.AddTransient<IDbConnection>((sp) => new NpgsqlConnection(connectionString));
-
+            services.AddSingleton<IAwsDynamoRepository<string>, AwsDynamoRepository<string>>();
             return services;
         }
 
@@ -45,11 +45,14 @@ namespace Job.Configuration
             var appSettings = configuration.Get<JobAppSettings>();
             services.AddSingleton(appSettings);
             services.AddSingleton<AppSettings>(appSettings);
-            services.AddAWSService<IAmazonSQS>();
-            services.AddAWSService<AmazonDynamoDBClient>();
-
             var options = configuration.GetAWSOptions();
             services.AddDefaultAWSOptions(options);
+            
+            services.AddAWSService<IAmazonSQS>();
+            services.AddAWSService<IAmazonDynamoDB>();
+            services.AddTransient<IDynamoDBContext, DynamoDBContext>();
+
+            
             // TODO testar services.Configure<AppSettings>(configuration);
             return services;
         }

@@ -13,5 +13,6 @@ namespace Shared.Models
     public record AppSettings
     {
         public QueueSettings Queue { get; set; }
+        public string DynamoDbTable { get; init; } = String.Empty;
     }
 }
